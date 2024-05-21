@@ -1,29 +1,33 @@
-<div className=' Home  h-screen w-screen overflow-hidden flex flex-col justify-center items-center gap-10'>
-      <div className=' h-[40%] w-[90%] border-2 rounded-2xl   '>
-      <div className='h-full w-full  rounded-2xl '>
-        <div className='p-10 gap-10 flex flex-col'>
-        <header className="text-4xl font-bold mb-4 text-white">
-          Welcome to Your Habit Tracker
-        </header>
-        <section className="text-white">
-          <p>
-            Start building and tracking your habits today. Whether it's fitness, reading, or any other goal, we've got you covered.
-          </p>
-          
-          <div className="text-2xl font-bold mt-4 border-2 border-blue-500 p-2 rounded-md w-fit text-blue-500  hover:bg-blue-500 hover:text-white">
-            <button onClick={handleclick}>Go to Dashboard</button>
-          </div>
-          
-        </section>
-        {/* <footer className="text-gray-400 mt-8">
-          <p>&copy; 2024 Your Habit Tracker. All rights reserved.</p>
-        </footer> */}
+<div className='h-full w-full justify-center items-center flex'>
+      <div className="h-[90%] w-[95%] justify-center items-center flex-col flex sm:flex-row text-black gap-5 ">
+
+<div className='xs:h-[50%] xs:w-full sm:h-full sm:w-[30%] rounded-xl  p-2 gap-5 flex flex-col'>
+      <div className='h-full w-full rounded-xl border-2 bg-whit p-5'>
+        <div className='h-[10%] w-full text-center shadow-xl font-mateSc text-white justify-center  items-center flex '>
+          <h1>MY HABITS</h1>
         </div>
-       
+        <div className='h-[87%] w-full rounded-b-xl  flex xs:flex-row sm:flex-col bg-whit  overflow-y-scroll xs:overflow-x-scroll  p-2'>
+        { 
+            suggestedHabits.map((habits,index) =>(
+              <div key={habits.id} className='text-black text-center p-2 w-full   flex  justify-center items-center'>
+                <p  className='gap-10 flex cursor-pointer justify-center items-center xs:w-[20vh] sm:w-[80%] h-full text-center p-2 rounded-sm bg-white shadow-sm shadow-white' onClick={()=>handleReport(habits.habit)}>{habits.habit}</p>
+               
+                </div>
+            ))
+          }
+        </div>
       </div>
+
       </div>
-      <div className=' h-fit w-[90%] border-2 rounded-2xl flex justify-center items-center flex-col gap-10 p-2 '>
-        <h1 className='text-2xl'>Motivational Quotes</h1>
-        <h1 className='text-center text-xl'>{HabitQuotes[currentQuote]}</h1>
+        
+          <div className='xs:h-[50%] xs:w-full sm:h-full sm:w-[70%] rounded-xl border-2 text-white flex flex-col justify-center gap-5 p-2 items-center'>
+            {HabitForReport ? <HabitReport habit={HabitForReport} ></HabitReport> : 
+
+        <div className='text-white'>Select the Habit To view its Report</div>
+
+
+            }
+          </div>
+      <ToastContainer ></ToastContainer>
       </div>
     </div>
