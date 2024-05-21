@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import LogIn from './Components/2 Auth/LogIn'
 import { useRecoilState } from 'recoil'
 import { LoginState} from './HandleData/atoms'
-import MainApp from './Components/8 MainApp/MainApp'
+import MainApp from './Components/3 MainApp/MainApp'
 import ImageContext from '../src/HandleData/ImageContext'
 
 

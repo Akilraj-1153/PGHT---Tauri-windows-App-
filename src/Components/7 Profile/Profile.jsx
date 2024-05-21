@@ -101,21 +101,21 @@ function Profile() {
   };
 
   return (
-    <div className="h-full w-full justify-center items-center  flex text-black">
-      <div className="h-[75%] w-[90%] md:w-[70%] lg:h-[60%] lg:w-[50%] bg-white rounded-xl">
+    <div className="h-full w-full justify-center items-center  flex text-black ">
+      <div className="h-[85%] w-[90%] md:w-[70%] lg:h-[60%] lg:w-[50%] bg-white rounded-xl">
         <div className="flex justify-between items-center p-4 h-[7%] w-full shadow-xl">
           <button onClick={handleBack}>Back</button>
           <button onClick={handleEdit}>Edit</button>
           <button onClick={handleLogout}>Logout</button>
         </div>
         <hr></hr>
-        <div className="h-[93%] w-full flex flex-col lg:flex-row">
-          <div className="xs:h-1/2 xs:w-full  lg:h-full lg:w-1/2 flex justify-center items-center">
-          <div className='h-[30vh] w-[30vh] rounded-full border-4 border-white/40 flex flex-col overflow-hidden'>
-                            <img src={defaultUserImage} alt='user-avatar' />
+        <div className="h-[93%] w-full flex flex-col lg:flex-row ">
+          <div className="xs:h-2/3 xs:w-full  lg:h-full lg:w-1/2 flex justify-center items-center">
+          <div className='h-[30vh] w-[30vh]  rounded-full border-4 border-white/40 flex flex-col overflow-hidden'>
+                            <img className='rounded-full' src={defaultUserImage} alt='user-avatar' />
                         </div>
           </div>
-          <div className="xs:h-1/2 xs:w-full flex justify-center flex-col items-center gap-2 lg:h-full lg:w-1/2 p-2">
+          <div className="xs:h-1/3 xs:w-full flex justify-center  flex-col items-center gap-2 lg:h-full lg:w-1/2 p-2">
             <div className="w-full h-fit flex justify-center  items-center gap-2">
               <h1 className="font-bold">Name :</h1>
               <h1 className="">{Name}</h1>

@@ -18,7 +18,8 @@ import { LoginState } from '../../HandleData/atoms'
 
             useGSAP(()=>{
                 gsap.fromTo('.Introicon',{scale:0.8},{scale:1,opacity:1,ease:'circ.in',duration:1})
-            })
+            },[])
+
             if (isLoggedIn){
                 setTimeout(()=>{
                     navigation('/mainapp/homepage')
