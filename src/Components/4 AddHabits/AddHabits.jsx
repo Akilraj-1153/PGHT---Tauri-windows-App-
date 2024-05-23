@@ -2,65 +2,82 @@ import React from 'react'
 import { SuggestedHabit } from '../../HandleData/Data'
 import { useRecoilState } from 'recoil'
 import { currentHabit, myHabits } from '../../HandleData/atoms'
-import { userEmail } from '../../HandleData/atoms'
 import { setDoc } from 'firebase/firestore'
 import { doc } from 'firebase/firestore'
 import { db } from '../../Config/Config'
 import { collection } from 'firebase/firestore'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useEffect } from 'react'
+import { getDoc } from 'firebase/firestore'
 
 function AddHabits() {
 
-  const [selectedHabits,setSelectedHabits]=useRecoilState(currentHabit)
-  const [AllHabits,setAllHabits]= useRecoilState(myHabits)
+  const [selectedHabits, setSelectedHabits] = useRecoilState(currentHabit)
+  const [AllHabits, setAllHabits] = useRecoilState(myHabits)
 
-  console.log(AllHabits)
+  useEffect(() => {
+    const fetchHabits = async () => {
+      try {
+        const userEmail = JSON.parse(localStorage.getItem('user')).email;
+        const userHabitRef = doc(db, 'HabitDetails', userEmail);
+        const userHabitSnapshot = await getDoc(userHabitRef);
 
-  console.log(AllHabits)
-  
-  function handleclick (habitname){
-      setSelectedHabits( habitname)
+        if (userHabitSnapshot.exists()) {
+          const userHabit = userHabitSnapshot.data();
+          setAllHabits(userHabit.Habits);
+        } else {
+          toast.info('Start Adding the Habits ', { autoClose: 2000 });
+        }
+      } catch (error) {
+        toast.error('Failed to fetch Habits!', { autoClose: 2000 });
+      }
+    };
+
+    fetchHabits();
+  }, []);
+
+  function handleclick(habitname) {
+    setSelectedHabits(habitname)
   }
 
-  function handleHabit (event){
-      setSelectedHabits(event.target.value)
-    }
+  function handleHabit(event) {
+    setSelectedHabits(event.target.value)
+  }
 
-
-  async function handlesubmit (){
+  async function handlesubmit() {
     if (!selectedHabits.trim()) {
       toast.error('Please enter a habit!', { autoClose: 2000 });
       return;
     }
 
-    if (selectedHabits in AllHabits) {
+
+    const updatedHabits = { ...AllHabits } || {};
+
+    if (selectedHabits in updatedHabits) {
       toast.error('This habit already exists!', { autoClose: 2000 });
       return;
     }
-    const updatedHabits = { ...AllHabits }; 
-    console.log(updatedHabits)
-    updatedHabits[selectedHabits] = []; 
+
+    const currentDate = new Date().toISOString(); // Get current date and time in ISO format
+    updatedHabits[selectedHabits] = { AddedAt: currentDate ,Date:[] }; // Store the habit with the current date and time
     setAllHabits(updatedHabits);
-    
-    try{
+
+    try {
       const userEmail = JSON.parse(localStorage.getItem('user')).email;
 
       const userDetailsCollection = collection(db, "HabitDetails");
       const userDocRef = doc(userDetailsCollection, userEmail);
       await setDoc(userDocRef, {
-            Habits:updatedHabits
+        Habits: updatedHabits
       });
       toast.success('Habit Added successfully!', { autoClose: 2000 });
 
-    }
-    catch (error) {
+    } catch (error) {
       console.error('Error fetching user details:', error);
       toast.error('Failed to add Habit!', { autoClose: 2000 });
-
     }
   }
-  
 
   return (
     <div className="h-[85%]  w-[95%] justify-center items-center flex-col flex lg:flex-row text-black gap-5">

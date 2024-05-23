@@ -9,6 +9,7 @@ import { useRecoilState } from 'recoil'
 import { LoginState} from './HandleData/atoms'
 import MainApp from './Components/3 MainApp/MainApp'
 import ImageContext from '../src/HandleData/ImageContext'
+import CheckConnection from './Components/Network/CheckConnection'
 
 
 function App() {
@@ -27,7 +28,11 @@ function App() {
 
 
   return (
-    <ImageContext.Provider value={logo}>
+    <CheckConnection>
+
+
+
+<ImageContext.Provider value={logo}>
 <div className='bg-black h-screen w-screen text-white'>
         <Routes>
           <Route path='/' element={ <Intro Logoimg={Logo}></Intro>}></Route>
@@ -37,6 +42,9 @@ function App() {
         </Routes>
     </div>  
     </ImageContext.Provider>
+
+    </CheckConnection>
+    
       
     
   )

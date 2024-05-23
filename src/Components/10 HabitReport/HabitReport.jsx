@@ -14,13 +14,10 @@ function HabitReport({ habit }) {
   const [selectedDates, setSelectedDates] = useState([]);
   const [totalDays, setTotalDays] = useState(0);
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [AllHabits,setAllHabits]= useRecoilState(myHabits)
-
-
-  const [HabitForReport,setHabitForReport]=useRecoilState(selectedHabitsforReport)
-
-
+  const [AllHabits, setAllHabits] = useRecoilState(myHabits);
+  const [HabitForReport, setHabitForReport] = useRecoilState(selectedHabitsforReport);
   const [dataFetched, setDataFetched] = useState(false);
+
 
   useEffect(() => {
     fetchHabitData();
@@ -43,9 +40,11 @@ function HabitReport({ habit }) {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const habitData = docSnap.data().Habits || {};
-        setAllHabits(habitData);
-        setSelectedDates(habitData[HabitForReport] || []);
-        setDataFetched(true);
+        if (habitData[HabitForReport]) {
+          setSelectedDates(habitData[HabitForReport].Date || []);
+          setAllHabits(habitData);
+          setDataFetched(true);
+        }
       }
     } catch (error) {
       console.error('Error fetching habit data:', error);
@@ -67,20 +66,15 @@ function HabitReport({ habit }) {
   const saveDatesToFirestore = async () => {
     const userEmail = JSON.parse(localStorage.getItem('user')).email;
     const docRef = doc(db, 'HabitDetails', userEmail);
-    const data = { ...AllHabits, [HabitForReport]: selectedDates };
+    const data = { ...AllHabits, [HabitForReport]: { ...AllHabits[HabitForReport], Date: selectedDates } };
     try {
       await setDoc(docRef, { Habits: data });
     } catch (error) {
       toast.error('Error updating user details!', { autoClose: 2000 });
-
     }
   };
 
   const isDateSelected = (date) => selectedDates.includes(date);
-  
-
-  
-
 
   const deleteHabit = async (habitname) => {
     try {
@@ -89,20 +83,14 @@ function HabitReport({ habit }) {
       setAllHabits(updatedHabits);
       const userEmail = JSON.parse(localStorage.getItem('user')).email;
       const userDocRef = doc(db, 'HabitDetails', userEmail);
-      await setDoc(userDocRef, {
-        Habits: updatedHabits
-      });
-      setHabitForReport(null)
+      await setDoc(userDocRef, { Habits: updatedHabits });
+      setHabitForReport(null);
       toast.success('Habit deleted successfully!', { autoClose: 2000 });
     } catch (error) {
       console.error('Error deleting habit:', error);
       toast.error('Failed to delete habit. Please try again later.', { autoClose: 2000 });
     }
   };
-
-
-  
-
 
   return (
     <div className="habit-report text-center  h-full w-full rounded-xl p-2 overflow-hidden ">
