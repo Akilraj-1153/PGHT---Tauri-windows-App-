@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import Intro from './Components/1 Intro/Intro'
+import Intro from './Components/Intro/Intro'
 import Logo from './Assets/logo.png'
 import { Navigate, Route,Routes } from 'react-router-dom'
-import SignUp from './Components/2 Auth/SignUp'
+import SignUp from './Components/Auth/SignUp'
 import { useNavigate } from 'react-router-dom'
-import LogIn from './Components/2 Auth/LogIn'
+import LogIn from './Components/Auth/LogIn'
 import { useRecoilState } from 'recoil'
 import { LoginState} from './HandleData/atoms'
-import MainApp from './Components/3 MainApp/MainApp'
+import MainApp from './Components/MainApp/MainApp'
 import ImageContext from '../src/HandleData/ImageContext'
 import CheckConnection from './Components/Network/CheckConnection'
 
@@ -29,9 +29,6 @@ function App() {
 
   return (
     <CheckConnection>
-
-
-
 <ImageContext.Provider value={logo}>
 <div className='bg-black h-screen w-screen text-white'>
         <Routes>

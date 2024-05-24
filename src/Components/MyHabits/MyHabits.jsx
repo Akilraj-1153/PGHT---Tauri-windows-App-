@@ -6,7 +6,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
 import { getDoc } from 'firebase/firestore';
-import HabitReport from '../10 HabitReport/HabitReport';
+import HabitReport from '../HabitReport/HabitReport';
 import { selectedHabitsforReport } from '../../HandleData/atoms';
 import { doc } from 'firebase/firestore';
 
